@@ -3,7 +3,8 @@
  :dependencies [[binaryage/devtools "0.9.10"]
                 [proto-repl "0.3.1"]
                 [reagent "0.8.0"]
-                [cljs-ajax "0.7.3"]]
+                [cljs-ajax "0.7.3"]
+                [clj-commons/secretary "1.2.4"]]
 
  :nrepl        {:port 3333}
 

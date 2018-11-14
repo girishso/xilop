@@ -2,7 +2,7 @@
   (:require
    [xilop.state :as state]))
 
-(defn aproject [{:keys [id name fields owners slug covers stats]}]
+(defn aproject [{:keys [id name fields owners  covers stats]}]
   (let [owner-name
         (get (first owners) :display_name)]
 
@@ -28,5 +28,4 @@
 (defn projects []
   [:div.ui.link.cards
    (map aproject
-        @state/projects)
-   [:h1 "mee"]])
+        @state/projects)])
