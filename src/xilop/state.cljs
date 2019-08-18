@@ -6,3 +6,5 @@
 (def projects (r/atom {}))
 
 (def user (r/atom nil))
+
+(def app-state (r/atom []))

@@ -1,12 +1,12 @@
 (ns xilop.components.projects
   (:require
-   [xilop.state :as state]))
+   [xilop.state :as state]
+   [secretary.core :as secretary]
+   [accountant.core :as accountant]))
 
 (defn aproject [{:keys [id name fields owners  covers stats]}]
-  (let [owner-name
-        (get (first owners) :display_name)]
-
-    [:div.card
+  (let [owner-name (get (first owners) :display_name)]
+    [:div.card {:key id}
      [:div.image
       [:img
        {:src
@@ -14,7 +14,9 @@
         :alt name}]]
      [:div.content
       [:div.header [:a
-                    {:href (str "/projects/" id)}
+                    ; {:on-click #(accountant/navigate! (str "/projects/" id))}
+                    ; {:href (str "/#projects/" id)}
+                    (secretary/dispatch! (str "/projects/" id))
                     name]]
       [:div.meta [:span.date
                   (str "by " owner-name)]]

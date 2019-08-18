@@ -1,18 +1,34 @@
 (ns xilop.core
+  ; (:require-macros [secretary.core :refer [defroute]])
+
   (:require [reagent.core :as r]
             [xilop.components.header :refer [header]]
-            [xilop.components.projects :refer [projects]]
-            [xilop.api :as api]))
+            [xilop.api :as api]
+            [xilop.routes :as routes]
+            [xilop.layout :as layout]
+            [accountant.core :as accountant]
+            [secretary.core :as secretary]))
 
 (defn app
   []
   [:div.container
-   [header]
-   [projects]])
+   [header]])
 
-(defn ^:export main
-  []
-  (api/fetch-projects)
+(defn mount-root []
   (r/render
-    [app]
+    [layout/layout]
     (.getElementById js/document "app")))
+
+(defn ^:export main []
+  ; (routes/app-routes)
+  (api/fetch-projects)
+  (routes/hook-browser-navigation!)
+  (accountant/configure-navigation!
+   {:nav-handler
+    (fn [path]
+      (secretary/dispatch! path))
+    :path-exists?
+    (fn [path]
+      (secretary/locate-route path))})
+  (accountant/dispatch-current!)
+  (mount-root))
